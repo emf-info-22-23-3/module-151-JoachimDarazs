@@ -13,7 +13,17 @@
       </tr>
       <?php
         require('ctrl.php');
-        // A compléter....
+       
+        function ajouteCelluleHtml($id, $equipe){
+          echo '<tr><td>'.$id.'</td><td>'.$equipe.'</td></tr>';
+
+        }
+        $equipes = getEquipes();
+        $compteur = 1;
+        foreach($equipes as $item) {
+          ajouteCelluleHtml($compteur, $item);
+          $compteur++;
+        }
       ?>
       </table>
     </div>
