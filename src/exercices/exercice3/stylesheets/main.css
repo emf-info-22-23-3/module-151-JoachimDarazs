@@ -18,4 +18,5 @@ body {
   border: 2px solid green;
   padding: 1em 2em;
   font-family: Verdana, Arial, serif;
+  display: block;
 }
