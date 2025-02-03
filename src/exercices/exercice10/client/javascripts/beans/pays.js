@@ -1,9 +1,6 @@
 /*
  * Bean "Pays".
  *
- * @author Neuhaus Olivier
- * @project Test sommatif 1 2013
- * @version 1.0 / 13-SEP-2013
  */
 
 var Pays = function() {
@@ -27,6 +24,14 @@ Pays.prototype.setPk = function(pk) {
   this.pk = pk;
 };
 
+
+Pays.prototype.getNom = function(){
+  return this.nom;
+}
+
+Pays.prototype.getPk = function(){
+  return this.pk;
+}
 /**
  * Retourne le pays en format texte
  * @returns Le pays en format texte
@@ -34,4 +39,5 @@ Pays.prototype.setPk = function(pk) {
 Pays.prototype.toString = function () {
   return this.nom;
 };
+
 

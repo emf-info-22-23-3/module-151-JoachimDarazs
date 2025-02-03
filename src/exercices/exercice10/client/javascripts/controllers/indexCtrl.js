@@ -1,8 +1,6 @@
 /*
  * Contrôleur de la vue "index.html"
  *
- * @author Olivier Neuhaus
- * @version 1.0 / 13-SEP-2013
  */
 
 /**
@@ -15,11 +13,14 @@
 function chargerPaysSuccess(data, text, jqXHR)
 {   
 	var cmbPays = document.getElementById("cmbPays");
+
     $(data).find("pays").each(function() {
       var pays = new Pays();
       pays.setNom($(this).find("nom").text());
+      
       pays.setPk($(this).find("pk_pays").text());
-	  cmbPays.options[cmbPays.options.length] = new Option(pays, JSON.stringify(pays));
+      console.log(pays);
+	  cmbPays.options[cmbPays.options.length] = new Option(pays.getNom(), pays.getPk());
     });  
 }
 
@@ -87,7 +88,7 @@ $(document).ready(function() {
   });
   cmbPays.change(function(event) {
     pays = this.options[this.selectedIndex].value;
-    chargerSkieurs(JSON.parse(pays).pk, chargerSkieursSuccess, chargerSkieursError);
+    chargerSkieurs(pays, chargerSkieursSuccess, chargerSkieursError);
   });
 
 });
