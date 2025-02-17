@@ -1,0 +1,62 @@
+/* styles.css */
+
+/* Style de base pour les cartes produits */
+.product-card {
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+/* Animation au survol */
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Style pour les images */
+.card-img-top {
+    object-fit: cover;
+    height: 200px;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+/* Animation de l'image au survol */
+.product-card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+/* Style pour le prix */
+.price {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #2b2d42;
+    margin-bottom: 1rem;
+}
+
+/* Style pour le bouton d'ajout au panier */
+.btn-primary {
+    transition: all 0.3s ease;
+    opacity: 0.9;
+}
+
+.product-card:hover .btn-primary {
+    opacity: 1;
+}
+
+/* Style pour l'icône du panier */
+.cart-icon {
+    position: relative;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .card-img-top {
+        height: 150px;
+    }
+}
