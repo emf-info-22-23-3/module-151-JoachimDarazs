@@ -60,3 +60,126 @@
         height: 150px;
     }
 }
+
+/*page login */
+/* login.css */
+
+/* Container principal */
+.login-container {
+    min-height: 100vh;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                url('../images/mountain-bg.jpg') center/cover no-repeat;
+}
+
+/* Carte de connexion */
+.login-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    animation: fadeIn 0.8s ease-out;
+}
+
+/* Bouton de fermeture */
+.close-btn {
+    top: 1rem;
+    right: 1rem;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.close-btn:hover {
+    background: rgba(0, 0, 0, 0.2);
+    color: #4a90e2;
+    transform: rotate(90deg);
+}
+
+/* Animation d'apparition */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Titre */
+.login-title {
+    color: #2b2d42;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+/* Champs de formulaire personnalisés */
+.custom-input {
+    border-radius: 10px;
+    padding: 12px;
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.custom-input:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 15px rgba(74, 144, 226, 0.1);
+}
+
+.input-group-text {
+    border: 2px solid #e9ecef;
+    border-right: none;
+}
+
+/* Bouton de connexion */
+.btn-custom-login {
+    padding: 12px 30px;
+    border-radius: 10px;
+    font-weight: 600;
+    background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+    border: none;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.btn-custom-login:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
+}
+
+/* Lien d'inscription */
+.signup-link {
+    color: #4a90e2;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.signup-link:hover {
+    color: #357abd;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .login-card {
+        margin: 1rem;
+    }
+    
+    .login-title {
+        font-size: 1.75rem;
+    }
+
+    a {
+        text-decoration: none;
+    }
+}
