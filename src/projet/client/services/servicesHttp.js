@@ -20,3 +20,21 @@ function chargerProduits(successCallback, errorCallback) {
   });
 }
 
+/**
+ * Fonction permettant la connexion d'un user
+ * @param {type} passwd, mdp d'un utilisateur
+ * 
+ * @param {type} Fonction de callback lors du retour avec succès de l'appel.
+ * @param {type} Fonction de callback en cas d'erreur.
+ */
+function connect(login, passwd, successCallback, errorCallback) {
+  $.ajax({
+      type: "POST",
+      dataType: "xml",
+      url: BASE_URL + "loginManager.php",
+      data: 'action=connect&login'+ login +'&password=' + passwd,
+      success: successCallback,
+      error: errorCallback
+  });
+}
+
