@@ -39,9 +39,7 @@
     opacity: 0.9;
 }
 
-.product-card:hover .btn-primary {
-    opacity: 1;
-}
+
 
 /* Style pour l'icône du panier */
 .cart-icon {

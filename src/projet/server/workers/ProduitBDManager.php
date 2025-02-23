@@ -18,7 +18,9 @@ class ProduitBDManager
 	}
 
 
-
+	public function addProduits(){
+		
+	}
 
 	public function getAllProduits()
 	{

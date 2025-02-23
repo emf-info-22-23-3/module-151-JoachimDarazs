@@ -54,5 +54,27 @@ function disconnect(successCallback, errorCallback) {
   });
 }
 
+/**
+ * Fonction permettant d'ajouter un produit
+ *  @param {type} nom, nom produit
+ * @param {type} description, description produit
+ * @param {type} lien_Image, lien_Image produit
+ * @param {type} prix, prix produit
+ * @param {type} FK_Categorie, categorie produit
+ * @param {type} FK_Marque, marque produit
+ * @param {type} Fonction de callback lors du retour avec succès de l'appel.
+ * @param {type} Fonction de callback en cas d'erreur.
+ */
+function addProduit(nom, description, lien_Image, prix, FK_Categorie, FK_Marque, successCallback, errorCallback) {
+  $.ajax({
+    type: "POST",
+    dataType: "xml",
+    url: BASE_URL + "produitManager.php",
+    data: 'action=add&nom='+nom+ '&description='+description+ '&lien_Image='+lien_Image+'&prix='+prix+'&FK_Categorie='+FK_Categorie+'&FK_Marque='+FK_Marque,
+    success: successCallback,
+    error: errorCallback
+  });
+}
+
 
 
