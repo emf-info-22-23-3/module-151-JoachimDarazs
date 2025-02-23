@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,10 +13,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="../style/style.css" rel="stylesheet">
-    <script src="../ctrl/produitsCtrl.js"></script> 
-    
+
+
 
 </head>
+
 <body>
     <!-- Header -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
@@ -31,18 +33,19 @@
             <!-- Menu de navigation -->
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                   
+
                 </ul>
 
                 <!-- Boutons panier et connexion -->
                 <div class="d-flex align-items-center gap-3">
                     <button class="btn btn-link position-relative cart-icon">
                         <i class="bi bi-cart fs-5"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-badge">
+                        <span
+                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-badge">
                             0
                         </span>
                     </button>
-                    <button class="btn btn-outline-primary">
+                    <button class="btn btn-outline-primary" id="buttonConnexion">
                         <a href="login.html" class="no-underline">
                             <i class="bi bi-person me-2"></i>Connexion
                         </a>
@@ -55,19 +58,21 @@
     <!-- Contenu principal -->
     <main class="container my-5">
         <h1 class="mb-4">Nos Produits</h1>
-        
+
         <!-- Grille de produits -->
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4" id="grilleProduits">
-           
-            
+
+
             <!-- Répéter pour les autres produits -->
             <!-- Produit 2 -->
-            
+
             <!-- Répéter pour créer plus de produits... -->
         </div>
     </main>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../ctrl/produitsCtrl.js"></script>
 </body>
+
 </html>

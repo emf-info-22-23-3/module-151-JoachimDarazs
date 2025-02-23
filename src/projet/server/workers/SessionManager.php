@@ -1,33 +1,44 @@
 <?php
 class SessionManager
 {
-    
-
-    // On stocke les informations de l'utilisateur dans la session
-    public function openSession($user): void
+    public function __construct()
     {
         if (session_status() === PHP_SESSION_NONE) {
-           // session_start();
+            session_start(); // Démarre la session si elle n'est pas active
         }
+    }
 
+    // Stocke les informations de l'utilisateur dans la session
+    public function openSession($user): void
+    {
         $_SESSION['user'] = $user;
     }
 
-    //Verifie si l'utilisateur est connecté (si une session existe pour cet user)
+    // Vérifie si l'utilisateur est connecté
     public function isConnected(): bool
     {
         return isset($_SESSION['user']);
     }
-    //Détruit la session en cours
+
+    // Détruit la session
     public function destroySession(): void
     {
-        session_unset();
-        session_destroy();
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            session_unset();
+            session_destroy();
+        }
     }
-    //Retourne l'utilisateur actuel
+
+    // Retourne l'utilisateur actuel
     public function currentUser()
     {
-        //Si un utilisateur est connecté on retourne ses informations
-        return isset($_SESSION['user']) ? $_SESSION['user'] : null;
+        return $_SESSION['user'] ?? null;
+    }
+
+    // Retourne l'ID de la session
+    public function getSessionId(): string
+    {
+        return session_id();
     }
 }
+?>
