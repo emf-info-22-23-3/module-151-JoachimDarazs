@@ -1,17 +1,15 @@
 <?php
 class SessionManager
 {
-    // créer la session lors de la creation d'une instance
-    public function __construct()
-    {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-    }
+    
 
     // On stocke les informations de l'utilisateur dans la session
     public function openSession($user): void
     {
+        if (session_status() === PHP_SESSION_NONE) {
+           // session_start();
+        }
+
         $_SESSION['user'] = $user;
     }
 

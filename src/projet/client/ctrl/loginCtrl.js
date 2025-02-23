@@ -1,30 +1,57 @@
 function connectSuccess(data, text, jqXHR) {
-  
-    if ($(data).find("result").text() == 'true')
+    console.log($(data).find("result").text())
+    if (jqXHR.status === 200)
 	{
-		alert("Login ok");
+
+        alert("Vous êtes connectés avec succès !");
+		
 		//chargerPersonnel(chargerPersonnelSuccess, CallbackError);
 	}
-	else{
-		alert("Erreur lors du login");
+    else if(jqXHR.status === 401)
+    {
+        alert("Le mot de passe est incorrecte");
+    }
+	else if(jqXHR.status === 400)
+    {
+        
+        alert("Merci de remplir tous les champs");
+		
 	}
+    
+    else if(jqXHR.status === 404)
+    {
+        alert("Cette utilisateur n'existe pas");
+    }
+    
 
 }
 
 function CallbackError(request, status, error) {
-    alert("erreur : " + error + ", request: " + request + ", status: " + status);
+    if (request.status === 401) {
+        alert("Le mot de passe est incorrect");
+    } 
+    else if (request.status === 404) {
+        alert("Cet utilisateur n'existe pas");
+    }
+    else if (request.status === 400) {
+        alert("Merci de remplir tous les champs");
+    }else{
+    alert("erreur : " + error + ", request: " + request.status + ", status: " + status);
+    }
 }
 
 $(document).ready(function() {
 
 
-    console.log('jean crystoph')
+    
     var butConnect = $("#connect");
     $.getScript("../services/servicesHttp.js", function () {
         console.log("servicesHttp.js chargé !");
         
       });
     butConnect.click(function(event) {
+        event.preventDefault(); // Empêche le rechargement de la page
         connect(document.getElementById("login").value, document.getElementById("password").value, connectSuccess, CallbackError);
+        console.log(document.getElementById("login").value)
     });
 });

@@ -32,9 +32,8 @@ function connect(login, passwd, successCallback, errorCallback) {
       type: "POST",
       dataType: "xml",
       url: BASE_URL + "loginManager.php",
-      data: 'action=connect&login'+ login +'&password=' + passwd,
+      data: 'action=connect&login='+ login +'&password=' + passwd,
       success: successCallback,
       error: errorCallback
   });
 }
-

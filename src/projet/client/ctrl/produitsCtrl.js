@@ -17,7 +17,9 @@ function chargerProduitsSuccess(data, text, jqXHR) {
     contenu += `<div class="col">`;
     contenu += `<div class="product-card">`;
     contenu += `<div class="card h-100">`;
+    contenu += `<div class="image-container">`;
     contenu += `<img src="${$(this).find("lienImage").text()}" class="card-img-top" alt="${$(this).find("description").text()}">`;
+    contenu += `</div>`;
     contenu += `<div class="card-body">`;
     contenu += `<h5 class="card-title">${$(this).find("nomProduit").text()}</h5>`;
     contenu += `<p class="card-text price">${$(this).find("prix").text()} $</p>`;
@@ -26,12 +28,7 @@ function chargerProduitsSuccess(data, text, jqXHR) {
     contenu += `</div>`;
     contenu += `</div>`;
     contenu += `</div>`;
-    // var  joueur = new Joueur();
-    /**  joueur.setNom($(this).find("nom").text());
-     joueur.setPoints($(this).find("points").text());
-     cmbJoueurs.options[cmbJoueurs.options.length] = new Option(joueur, JSON.stringify(joueur));
-*/
-
+  
   });
   document.getElementById("grilleProduits").innerHTML = contenu;
 
