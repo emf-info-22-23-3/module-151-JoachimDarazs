@@ -21,7 +21,7 @@ function chargerProduitsSuccess(data, text, jqXHR) {
     contenu += `<img src="${$(this).find("lienImage").text()}" class="card-img-top" alt="${$(this).find("description").text()}">`;
     contenu += `</div>`;
     contenu += `<div class="card-body">`;
-    contenu += `<h5 class="card-title">${$(this).find("nomProduit").text()}</h5>`;
+    contenu += `<h5 class="card-title">${$(this).find("nomP").text()}</h5>`;
     contenu += `<p class="card-text price">${$(this).find("prix").text()} $</p>`;
     contenu += `<button class="btn btn-primary w-100">Ajouter au panier</button>`;
     contenu += `</div>`;

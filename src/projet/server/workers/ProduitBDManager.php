@@ -53,7 +53,7 @@ class ProduitBDManager
 		foreach ($produits as $produit) {
 			$xml .= '<produit>';
 			$xml .= '<id>' . $produit['PK_produit'] . '</id>';
-			$xml .= '<nom>' . htmlspecialchars(string: $produit['nomProduit']) . '</nom>';
+			$xml .= '<nomP>' . htmlspecialchars(string: $produit['nomProduit']) . '</nomP>';
 			$xml .= '<description>' . htmlspecialchars($produit['description']) . '</description>';
 			$xml .= '<lienImage>' . htmlspecialchars($produit['lien_Image']) . '</lienImage>';
 			$xml .= '<prix>' . $produit['prix'] . '</prix>';

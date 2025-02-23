@@ -4,8 +4,12 @@ function connectSuccess(data, text, jqXHR) {
 	{
 
         alert("Vous êtes connectés avec succès !");
-		
-		//chargerPersonnel(chargerPersonnelSuccess, CallbackError);
+		// Stocker l'état de connexion dans sessionStorage
+        sessionStorage.setItem("isConnected", "1");
+
+        // Rediriger vers la page des produits
+        window.location.href = "../ihm/produit.html";
+		//charger panier
 	}
     else if(jqXHR.status === 401)
     {
@@ -50,7 +54,7 @@ $(document).ready(function() {
         
       });
     butConnect.click(function(event) {
-        event.preventDefault(); // Empêche le rechargement de la page
+       
         connect(document.getElementById("login").value, document.getElementById("password").value, connectSuccess, CallbackError);
         console.log(document.getElementById("login").value)
     });
