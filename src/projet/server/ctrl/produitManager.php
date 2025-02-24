@@ -37,7 +37,7 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 								if (!is_string($value) || strlen($value) > 50) {
 									http_response_code(400);
 									echo "<result>Erreur : nom doit être une chaîne (max 50)</result>";
-									exit;
+									
 								}
 								break;
 
@@ -46,7 +46,7 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 								if (!is_string($value) || strlen($value) > 500) {
 									http_response_code(400);
 									echo "<result>Erreur : $key doit être une chaîne (max 500)</result>";
-									exit;
+									
 								}
 								break;
 
@@ -54,7 +54,7 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 								if (!is_numeric($value) || floatval($value) < 0) {
 									http_response_code(400);
 									echo "<result>Erreur : prix doit être un nombre décimal positif</result>";
-									exit;
+									
 								}
 								break;
 
@@ -63,7 +63,7 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 								if (!ctype_digit($value)) {
 									http_response_code(400);
 									echo "<result>Erreur : $key doit être un entier</result>";
-									exit;
+									
 								}
 								break;
 						}
@@ -94,7 +94,7 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 				}
 				
 			} 
-			if (isset($_POST['action']) && $_POST['action'] === 'modify') {
+			else if (isset($_POST['action']) && $_POST['action'] === 'modify') {
 				if (
 					isset($_POST['id']) && $_POST['nom'] && isset($_POST['description']) && isset($_POST['lien_Image'])
 					&& isset($_POST['prix']) && isset($_POST['FK_Categorie']) && isset($_POST['FK_Marque']))
@@ -115,7 +115,7 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 								if (!is_numeric($value)) {
 									http_response_code(400);
 									echo "<result>Erreur : id doit etre un nombre</result>";
-									exit;
+									
 								}
 								break;
 
@@ -123,7 +123,7 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 								if (!is_string($value) || strlen($value) > 50) {
 									http_response_code(400);
 									echo "<result>Erreur : nom doit être une chaîne (max 50)</result>";
-									exit;
+									
 								}
 								break;
 
@@ -132,7 +132,7 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 								if (!is_string($value) || strlen($value) > 500) {
 									http_response_code(400);
 									echo "<result>Erreur : $key doit être une chaîne (max 500)</result>";
-									exit;
+									
 								}
 								break;
 
@@ -140,7 +140,7 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 								if (!is_numeric($value) || floatval($value) < 0) {
 									http_response_code(400);
 									echo "<result>Erreur : prix doit être un nombre décimal positif</result>";
-									exit;
+									
 								}
 								break;
 
@@ -149,7 +149,7 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 								if (!ctype_digit($value)) {
 									http_response_code(400);
 									echo "<result>Erreur : $key doit être un entier</result>";
-									exit;
+									
 								}
 								break;
 						}
@@ -169,7 +169,7 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 					//created
 					if ($success) {
 						http_response_code(200);
-						echo "<result>Produit ajouté avec succès</result>";
+						echo "<result>Produit modifié avec succès</result>";
 						//erreur interne au serveur 
 					} else {
 						http_response_code(500);

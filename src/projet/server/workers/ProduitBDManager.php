@@ -26,14 +26,12 @@ class ProduitBDManager
 
 
 		$params = [
-			htmlspecialchars(
-				(string) $nom
-			),
+			htmlspecialchars((string) $nom),
 			htmlspecialchars((string) $description),
 			htmlspecialchars((string) $lien_Image),
-			htmlspecialchars((float) $prix),
-			htmlspecialchars((int) $FK_Categorie),
-			htmlspecialchars((int) $FK_Marque)
+			(float) $prix,
+			(int) $FK_Categorie,
+			(int) $FK_Marque
 		];
 
 		return $this->db->executeQuery($query, $params);
@@ -42,23 +40,24 @@ class ProduitBDManager
 
 	public function modifyProduit($id, $nom, $description, $lien_Image, $prix, $FK_Categorie, $FK_Marque){
 		$query =	
-		"SET 
-		nom = ?,
-		description = ?,
-		lien_Image = ?,
-		prix = ?,
-		FK_Categorie = ?,
-		FK_Marque = ?
-		WHERE PK_produit = ?;";
+		"UPDATE cimexplore.T_Produit SET 
+        nom = ?, 
+        description = ?, 
+        lien_Image = ?, 
+        prix = ?, 
+        FK_Categorie = ?, 
+        FK_Marque = ? 
+        WHERE PK_produit = ?;";
 
 		$params = [
-			htmlspecialchars((int) $id),
+			
 			htmlspecialchars((string) $nom),
 			htmlspecialchars((string) $description),
 			htmlspecialchars((string) $lien_Image),
-			htmlspecialchars((float) $prix),
-			htmlspecialchars((int) $FK_Categorie),
-			htmlspecialchars((int) $FK_Marque)
+			(float) $prix,
+			(int) $FK_Categorie,
+			(int) $FK_Marque,
+			(int) $id
 		];
 
 		return $this->db->executeQuery($query, $params);

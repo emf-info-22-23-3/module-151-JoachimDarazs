@@ -100,12 +100,12 @@ function addProduit(nom, description, lien_Image, prix, FK_Categorie, FK_Marque,
  * @param {type} Fonction de callback lors du retour avec succès de l'appel.
  * @param {type} Fonction de callback en cas d'erreur.
  */
-function addProduit(id, nom, description, lien_Image, prix, FK_Categorie, FK_Marque, successCallback, errorCallback) {
+function modifyProduit(id, nom, description, lien_Image, prix, FK_Categorie, FK_Marque, successCallback, errorCallback) {
   $.ajax({
     type: "POST",
     dataType: "xml",
     url: BASE_URL + "produitManager.php",
-    data: 'action=add&id='+id+'&nom=' + nom + '&description=' + description + '&lien_Image=' + lien_Image + '&prix=' + prix + '&FK_Categorie=' + FK_Categorie + '&FK_Marque=' + FK_Marque,
+    data: 'action=modify&id='+id+'&nom=' + nom + '&description=' + description + '&lien_Image=' + lien_Image + '&prix=' + prix + '&FK_Categorie=' + FK_Categorie + '&FK_Marque=' + FK_Marque,
     xhrFields: {
       withCredentials: true
     },

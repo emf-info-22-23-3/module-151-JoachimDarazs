@@ -182,7 +182,8 @@ $(document).ready(function () {
   $(document).on("click", ".btn-save", function () {
     let card = $(this).closest(".card"); // Récupère la carte du produit
     let allInputs = card.find("input"); // Sélectionne tous les inputs
-
+    let productId = card.closest(".col").attr("id").replace("produit-", ""); // Récupère l'ID du produit
+  
     // Vérifier si un champ est vide
     let allFilled = true;
     allInputs.each(function () {
@@ -193,17 +194,40 @@ $(document).ready(function () {
         $(this).removeClass("border border-danger"); // Enlève le style rouge si rempli
       }
     });
-
+  
     if (!allFilled) {
       alert("Veuillez remplir tous les champs avant d'enregistrer !");
       return; // Arrête la fonction ici si un champ est vide
     }
+  
+    // Récupération des valeurs des inputs
+    let nom = card.find('input[placeholder="nom du produit"]').val().trim();
+    let description = card.find('input[placeholder="description du produit"]').val().trim();
+    let lien_Image = card.find('input[placeholder="lien de l\'image du produit"]').val().trim();
+    let prix = card.find('input[placeholder="prix du produit"]').val().trim();
+    let FK_Categorie = card.find('input[placeholder="id de la categorie"]').val().trim();
+    let FK_Marque = card.find('input[placeholder="id de la marque"]').val().trim();
+  
+    // Appel de la méthode modifyProduit
+    modifyProduit(
+      productId,
+      nom,
+      description,
+      lien_Image,
+      prix,
+      FK_Categorie,
+      FK_Marque,
+      function () {
+        alert("Produit modifié avec succès !");
+        allInputs.prop("disabled", true);
+        card.find(".btn-modify").prop("disabled", false);
+        $(this).prop("disabled", true);
+        card.find(".btn-delete").prop("disabled", true);
+        location.reload();
 
-    // Désactiver les inputs et modifier les boutons si tous les champs sont remplis
-    allInputs.prop("disabled", true);
-    card.find(".btn-modify").prop("disabled", false);
-    $(this).prop("disabled", true);
-    card.find(".btn-delete").prop("disabled", true);
+      },
+      CallbackError
+    );
   });
 
   $(document).on("click", ".btn-add", function () {
