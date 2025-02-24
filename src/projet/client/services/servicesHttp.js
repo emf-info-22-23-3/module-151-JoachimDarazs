@@ -3,7 +3,7 @@
  *
  */
 
-var BASE_URL = "http://localhost:8080/projet/server/ctrl/";
+var BASE_URL = "../../server/ctrl/";
 
 /**
  * Fonction permettant de demander la liste des produits au serveur.

@@ -1,6 +1,6 @@
 <?php
 include_once('Connexion.php');
-include_once('../beans/Produit.php');
+
 
 
 /**
@@ -108,7 +108,7 @@ class ProduitBDManager
 		foreach ($produits as $produit) {
 			$xml .= '<produit>';
 			$xml .= '<idP>' . $produit['PK_produit'] . '</idP>';
-			$xml .= '<nomP>' . htmlspecialchars(string: $produit['nomProduit']) . '</nomP>';
+			$xml .= '<nomP>' . htmlspecialchars( $produit['nomProduit']) . '</nomP>';
 			$xml .= '<description>' . htmlspecialchars($produit['description']) . '</description>';
 			$xml .= '<lienImage>' . htmlspecialchars($produit['lien_Image']) . '</lienImage>';
 			$xml .= '<prix>' . $produit['prix'] . '</prix>';

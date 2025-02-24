@@ -1,8 +1,8 @@
 <?php
 	//Informations de connexion à la base de données
 	define('DB_TYPE', 'mysql');
-    define('DB_HOST', 'mysql');
-    define('DB_NAME', 'cimexplore');
-    define('DB_USER', 'root');
-    define('DB_PASS', 'root');
+    define('DB_HOST', 'emf-informatique.ch');
+    define('DB_NAME', 'darazsj_cimexplore');
+    define('DB_USER', 'darazsj_root');
+    define('DB_PASS', '?i@ygFO?(=i!');
 ?>
