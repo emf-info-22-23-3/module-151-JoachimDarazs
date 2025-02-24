@@ -15,6 +15,9 @@ function chargerProduits(successCallback, errorCallback) {
     type: "GET",
     dataType: "xml",
     url: BASE_URL + "produitManager.php",
+    xhrFields: {
+      withCredentials: true
+    },
     success: successCallback,
     error: errorCallback
   });
@@ -33,6 +36,9 @@ function connect(login, passwd, successCallback, errorCallback) {
     dataType: "xml",
     url: BASE_URL + "loginManager.php",
     data: 'action=connect&login=' + login + '&password=' + passwd,
+    xhrFields: {
+      withCredentials: true
+    },
     success: successCallback,
     error: errorCallback
   });
@@ -49,6 +55,9 @@ function disconnect(successCallback, errorCallback) {
     dataType: "xml",
     url: BASE_URL + "loginManager.php",
     data: 'action=disconnect',
+    xhrFields: {
+      withCredentials: true
+    },
     success: successCallback,
     error: errorCallback
   });
@@ -70,11 +79,61 @@ function addProduit(nom, description, lien_Image, prix, FK_Categorie, FK_Marque,
     type: "POST",
     dataType: "xml",
     url: BASE_URL + "produitManager.php",
-    data: 'action=add&nom='+nom+ '&description='+description+ '&lien_Image='+lien_Image+'&prix='+prix+'&FK_Categorie='+FK_Categorie+'&FK_Marque='+FK_Marque,
+    data: 'action=add&nom=' + nom + '&description=' + description + '&lien_Image=' + lien_Image + '&prix=' + prix + '&FK_Categorie=' + FK_Categorie + '&FK_Marque=' + FK_Marque,
+    xhrFields: {
+      withCredentials: true
+    },
     success: successCallback,
     error: errorCallback
   });
 }
+
+/**
+ * Fonction permettant de modifier un produit
+ * @param {type} id, nom produit
+ * @param {type} nom, nom produit
+ * @param {type} description, description produit
+ * @param {type} lien_Image, lien_Image produit
+ * @param {type} prix, prix produit
+ * @param {type} FK_Categorie, categorie produit
+ * @param {type} FK_Marque, marque produit
+ * @param {type} Fonction de callback lors du retour avec succès de l'appel.
+ * @param {type} Fonction de callback en cas d'erreur.
+ */
+function addProduit(id, nom, description, lien_Image, prix, FK_Categorie, FK_Marque, successCallback, errorCallback) {
+  $.ajax({
+    type: "POST",
+    dataType: "xml",
+    url: BASE_URL + "produitManager.php",
+    data: 'action=add&id='+id+'&nom=' + nom + '&description=' + description + '&lien_Image=' + lien_Image + '&prix=' + prix + '&FK_Categorie=' + FK_Categorie + '&FK_Marque=' + FK_Marque,
+    xhrFields: {
+      withCredentials: true
+    },
+    success: successCallback,
+    error: errorCallback
+  });
+}
+
+/**
+ * Fonction permettant de supprimer un produit
+ *  @param {type} id, nom produit
+ * 
+ */
+function deleteProduit(id, successCallback, errorCallback) {
+  $.ajax({
+    type: "POST",
+    dataType: "xml",
+    url: BASE_URL + "produitManager.php",
+    data: 'action=delete&id=' + id,
+    xhrFields: {
+      withCredentials: true
+    },
+    success: successCallback,
+    error: errorCallback
+  });
+}
+
+
 
 
 

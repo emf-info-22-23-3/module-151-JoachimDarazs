@@ -18,9 +18,53 @@ class ProduitBDManager
 	}
 
 
-	public function addProduits(){
-		
+	public function addProduits($nom, $description, $lien_Image, $prix, $FK_Categorie, $FK_Marque)
+	{
+
+		$query = "INSERT INTO `cimexplore`.`T_Produit` (`nom`, `description`, `lien_Image`, `prix`, `FK_Categorie`, `FK_Marque`) VALUES
+		(?, ?, ?, ?, ?, ?)";
+
+
+		$params = [
+			htmlspecialchars(
+				(string) $nom
+			),
+			htmlspecialchars((string) $description),
+			htmlspecialchars((string) $lien_Image),
+			htmlspecialchars((float) $prix),
+			htmlspecialchars((int) $FK_Categorie),
+			htmlspecialchars((int) $FK_Marque)
+		];
+
+		return $this->db->executeQuery($query, $params);
 	}
+
+
+	public function modifyProduit($id, $nom, $description, $lien_Image, $prix, $FK_Categorie, $FK_Marque){
+		$query =	
+		"SET 
+		nom = ?,
+		description = ?,
+		lien_Image = ?,
+		prix = ?,
+		FK_Categorie = ?,
+		FK_Marque = ?
+		WHERE PK_produit = ?;";
+
+		$params = [
+			htmlspecialchars((int) $id),
+			htmlspecialchars((string) $nom),
+			htmlspecialchars((string) $description),
+			htmlspecialchars((string) $lien_Image),
+			htmlspecialchars((float) $prix),
+			htmlspecialchars((int) $FK_Categorie),
+			htmlspecialchars((int) $FK_Marque)
+		];
+
+		return $this->db->executeQuery($query, $params);
+	}
+	
+
 
 	public function getAllProduits()
 	{
@@ -42,6 +86,16 @@ class ProduitBDManager
 		return $this->db->selectQuery($query, []);
 	}
 
+	public function deleteProduct($id)
+	{
+		$query = "DELETE FROM `cimexplore`.`T_Produit` WHERE PK_produit = ?;";
+
+		$params = [
+			htmlspecialchars((int) $id)
+		];
+		return $this->db->executeQuery($query, $params);
+	}
+
 	public function getProduitsXML()
 	{
 		$produits = $this->getAllProduits();
@@ -54,7 +108,7 @@ class ProduitBDManager
 		//htmlspecialchars permet de sécuriser contre les injections HTML mais aussi les erreurs XML 
 		foreach ($produits as $produit) {
 			$xml .= '<produit>';
-			$xml .= '<id>' . $produit['PK_produit'] . '</id>';
+			$xml .= '<idP>' . $produit['PK_produit'] . '</idP>';
 			$xml .= '<nomP>' . htmlspecialchars(string: $produit['nomProduit']) . '</nomP>';
 			$xml .= '<description>' . htmlspecialchars($produit['description']) . '</description>';
 			$xml .= '<lienImage>' . htmlspecialchars($produit['lien_Image']) . '</lienImage>';

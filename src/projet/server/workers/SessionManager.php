@@ -1,13 +1,6 @@
 <?php
 class SessionManager
 {
-    public function __construct()
-    {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start(); // Démarre la session si elle n'est pas active
-        }
-    }
-
     // Stocke les informations de l'utilisateur dans la session
     public function openSession($user): void
     {
@@ -32,6 +25,7 @@ class SessionManager
     // Retourne l'utilisateur actuel
     public function currentUser()
     {
+      //  print_r($_SESSION);
         return $_SESSION['user'] ?? null;
     }
 
