@@ -21,7 +21,7 @@ class ProduitBDManager
 	public function addProduits($nom, $description, $lien_Image, $prix, $FK_Categorie, $FK_Marque)
 	{
 
-		$query = "INSERT INTO `cimexplore`.`T_Produit` (`nom`, `description`, `lien_Image`, `prix`, `FK_Categorie`, `FK_Marque`) VALUES
+		$query = "INSERT INTO `darazsj_cimexplore`.`T_Produit` (`nom`, `description`, `lien_Image`, `prix`, `FK_Categorie`, `FK_Marque`) VALUES
 		(?, ?, ?, ?, ?, ?)";
 
 
@@ -40,7 +40,7 @@ class ProduitBDManager
 
 	public function modifyProduit($id, $nom, $description, $lien_Image, $prix, $FK_Categorie, $FK_Marque){
 		$query =	
-		"UPDATE cimexplore.T_Produit SET 
+		"UPDATE darazsj_cimexplore.T_Produit SET 
         nom = ?, 
         description = ?, 
         lien_Image = ?, 
@@ -87,7 +87,7 @@ class ProduitBDManager
 
 	public function deleteProduct($id)
 	{
-		$query = "DELETE FROM `cimexplore`.`T_Produit` WHERE PK_produit = ?;";
+		$query = "DELETE FROM `darazsj_cimexplore`.`T_Produit` WHERE PK_produit = ?;";
 
 		$params = [
 			htmlspecialchars((int) $id)
