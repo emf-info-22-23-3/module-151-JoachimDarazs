@@ -1,8 +1,10 @@
 /**
- * Méthode appelée lors du retour avec succès du résultat des produits
- * @param {type} data
- * @param {type} text
- * @param {type} jqXHR
+ * Méthode appelée lors du retour avec succès du résultat des produits.
+ * Génère dynamiquement le contenu HTML en fonction des produits reçus.
+ * 
+ * @param {XMLDocument} data - Données XML des produits reçus.
+ * @param {string} text - Statut du retour de la requête.
+ * @param {jqXHR} jqXHR - Objet XMLHttpRequest utilisé pour la requête AJAX.
  */
 function chargerProduitsSuccess(data, text, jqXHR) {
   // Appelé lorsque la liste des produits est reçue
@@ -88,6 +90,10 @@ function chargerProduitsSuccess(data, text, jqXHR) {
   document.getElementById("grilleProduits").innerHTML = contenu;
 }
 
+/**
+ * Méthode appelée en cas de déconnexion réussie de l'utilisateur.
+ * Supprime les informations de session et met à jour l'interface utilisateur.
+ */
 function deconnectSuccess() {
   sessionStorage.removeItem("isConnected");
   if (sessionStorage.getItem("isAdmin")) {
@@ -99,21 +105,33 @@ function deconnectSuccess() {
   location.reload();
 }
 /**
- * Méthode appelée en cas d'erreur lors de la lecture des produits
- * @param {type} request
- * @param {type} status
- * @param {type} error
- * @returns {undefined}
+ * Méthode appelée en cas d'erreur lors de la récupération des produits.
+ * Affiche une alerte avec le message d'erreur.
+ * 
+ * @param {XMLHttpRequest} request - Objet contenant la requête HTTP.
+ * @param {string} status - Statut de l'erreur.
+ * @param {string} error - Message d'erreur retourné.
  */
 function chargerProduitsError(request, status, error) {
   alert("Erreur lors de la lecture des produits: " + error);
 }
+/**
+ * Méthode appelée en cas d'erreur générique.
+ * Affiche une alerte contenant les détails de l'erreur.
+ * 
+ * @param {XMLHttpRequest} request - Objet contenant la requête HTTP.
+ * @param {string} status - Statut de l'erreur.
+ * @param {string} error - Message d'erreur retourné.
+ */
 function CallbackError(request, status, error) {
   alert(
     "erreur : " + error + ", request: " + request.status + ", status: " + status
   );
 }
-
+/**
+ * Ajoute un formulaire vide pour l'ajout d'un nouveau produit par un administrateur.
+ * Insère dynamiquement un nouveau bloc de produit dans l'interface.
+ */
 function ajoutProduitAdminVide() {
   let contenu = ``;
   contenu += `<div class="col new-product">`;
@@ -128,9 +146,9 @@ function ajoutProduitAdminVide() {
   contenu += `<input type="text" id="textInput"  placeholder="lien de l'image du produit" disabled>`;
   contenu += `<label for="inputId"><strong>Prix :</strong></label>`;
   contenu += `<input type="text" id="number"  placeholder="prix du produit" disabled>`;
-  contenu += `<label for="inputId"><strong>Id categorie :</strong></label>`;
+  contenu += `<label for="inputId"><strong>Id categorie (1-10):</strong></label>`;
   contenu += `<input type="text" id="number"  placeholder="id de la categorie" disabled>`;
-  contenu += `<label for="inputId"><strong>Id marque :</strong></label>`;
+  contenu += `<label for="inputId"><strong>Id marque (1-10):</strong></label>`;
   contenu += `<input type="text" id="number"  placeholder="id de la marque" disabled>`;
   contenu += `</div>`;
   contenu += `<div class="card-body">`;
@@ -144,11 +162,13 @@ function ajoutProduitAdminVide() {
   contenu += `</div>`;
 
   document.getElementById("grilleProduits").innerHTML += contenu;
-  document.getElementById("");
 }
 
 $(document).ready(function () {
-  // Charger servicesHttp.js avant de charger les produits
+  /**
+   * Charge le script servicesHttp.js avant de récupérer les produits.
+   * Vérifie aussi si l'utilisateur est connecté pour ajuster l'affichage.
+   */
   $.getScript("../services/servicesHttp.js", function () {
     console.log("servicesHttp.js chargé !");
 
@@ -164,21 +184,32 @@ $(document).ready(function () {
       disconnect(deconnectSuccess, CallbackError);
     });
   }
-
+  /**
+   * Ajoute un nouveau produit lorsqu'on clique sur le bouton "Ajouter".
+   * Vérifie d'abord si un formulaire dynamique est déjà présent.
+   */
   $(document).on("click", "#btnAjouter", function () {
     if ($(".product-card[data-source='dynamic']").length === 0) {
       ajoutProduitAdminVide();
       $(this).prop("disabled", true);
     }
   });
-
+  /**
+   * Active l'édition des champs d'un produit lorsqu'on clique sur "Modify".
+   * Dégrise les inputs et active les boutons "Save" et "Delete".
+   */
   $(document).on("click", ".btn-modify", function () {
     let card = $(this).closest(".card"); // Récupère la carte du produit
     card.find("input").prop("disabled", false); // Dégrise tous les inputs
     card.find(".btn-save, .btn-delete, .btn-add").prop("disabled", false); // Active "Save" et "Delete"
     $(this).prop("disabled", true); // Grise "Modify"
   });
-
+ /**
+   * Sauvegarde les modifications d'un produit.
+   * Vérifie que tous les champs sont remplis avant d'envoyer la requête.
+   * 
+   * Désactive les boutons et recharge la page après modification réussie.
+   */
   $(document).on("click", ".btn-save", function () {
     let card = $(this).closest(".card"); // Récupère la carte du produit
     let allInputs = card.find("input"); // Sélectionne tous les inputs
@@ -229,7 +260,10 @@ $(document).ready(function () {
       CallbackError
     );
   });
-
+  /**
+   * Ajoute un nouveau produit avec les informations saisies.
+   * Vérifie que tous les champs sont remplis avant l'ajout.
+   */
   $(document).on("click", ".btn-add", function () {
     let card = $(this).closest(".card"); // Récupère la carte du produit
     let allInputs = card.find("input"); // Sélectionne tous les inputs
@@ -277,7 +311,10 @@ $(document).ready(function () {
     }
   });
 
-  //action lorsqu'on clique sur le bouton delete
+ /**
+   * Supprime un produit après confirmation de l'utilisateur.
+   * Envoie une requête de suppression et retire le produit de l'affichage.
+   */
   $(document).on("click", ".btn-delete", function () {
     let container = $(this).closest(".col"); // Récupère le conteneur du produit
     let containerId = container.attr("id"); // Ex: "produit-12"

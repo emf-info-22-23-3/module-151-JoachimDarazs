@@ -11,13 +11,31 @@ include_once('Connexion.php');
  */
 class ProduitBDManager
 {
+	 /**
+     * Instance de connexion à la base de données.
+     * @var Connexion
+     */
 	private $db;
+	/**
+     * Constructeur de la classe.
+     * Initialise la connexion à la base de données.
+     */
 	public function __construct()
 	{
 		$this->db = Connexion::getInstance();
 	}
 
-
+	/**
+     * Ajoute un produit à la base de données.
+     *
+     * @param string $nom Nom du produit.
+     * @param string $description Description du produit.
+     * @param string $lien_Image Lien vers l'image du produit.
+     * @param float $prix Prix du produit.
+     * @param int $FK_Categorie Identifiant de la catégorie du produit.
+     * @param int $FK_Marque Identifiant de la marque du produit.
+     * @return bool Retourne `true` si l'ajout a réussi, sinon `false`.
+     */
 	public function addProduits($nom, $description, $lien_Image, $prix, $FK_Categorie, $FK_Marque)
 	{
 
@@ -37,7 +55,18 @@ class ProduitBDManager
 		return $this->db->executeQuery($query, $params);
 	}
 
-
+	 /**
+     * Modifie un produit existant dans la base de données.
+     *
+     * @param int $id Identifiant du produit à modifier.
+     * @param string $nom Nom du produit.
+     * @param string $description Description du produit.
+     * @param string $lien_Image Lien vers l'image du produit.
+     * @param float $prix Prix du produit.
+     * @param int $FK_Categorie Identifiant de la catégorie du produit.
+     * @param int $FK_Marque Identifiant de la marque du produit.
+     * @return bool Retourne `true` si la modification a réussi, sinon `false`.
+     */
 	public function modifyProduit($id, $nom, $description, $lien_Image, $prix, $FK_Categorie, $FK_Marque){
 		$query =	
 		"UPDATE darazsj_cimexplore.T_Produit SET 
@@ -64,7 +93,11 @@ class ProduitBDManager
 	}
 	
 
-
+	 /**
+     * Récupère la liste de tous les produits avec leurs catégories et marques.
+     *
+     * @return array Retourne un tableau contenant tous les produits.
+     */
 	public function getAllProduits()
 	{
 		$query = "
@@ -84,6 +117,15 @@ class ProduitBDManager
 
 		return $this->db->selectQuery($query, []);
 	}
+	
+	
+
+    /**
+     * Supprime un produit de la base de données.
+     *
+     * @param int $id Identifiant du produit à supprimer.
+     * @return bool Retourne `true` si la suppression a réussi, sinon `false`.
+     */
 
 	public function deleteProduct($id)
 	{
@@ -95,6 +137,11 @@ class ProduitBDManager
 		return $this->db->executeQuery($query, $params);
 	}
 
+    /**
+     * Récupère la liste des produits au format XML.
+     *
+     * @return string Retourne une chaîne XML contenant la liste des produits.
+     */
 	public function getProduitsXML()
 	{
 		$produits = $this->getAllProduits();

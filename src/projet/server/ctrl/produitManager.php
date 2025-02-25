@@ -7,13 +7,13 @@ if (session_status() === PHP_SESSION_NONE) {
 include_once('../workers/ProduitBDManager.php');
 include_once('../workers/SessionManager.php');
 $produitBD = new ProduitBDManager();
+$sessionManager = new SessionManager();
 if (isset($_SERVER['REQUEST_METHOD'])) {
 	if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-		
+
 		echo $produitBD->getProduitsXML();
-	}
-	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-		$sessionManager = new SessionManager();
+	} else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
 
 		if ($sessionManager->currentUser() === 'admin') {
 			//ajout d'un produit
@@ -37,7 +37,6 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 								if (!is_string($value) || strlen($value) > 50) {
 									http_response_code(400);
 									echo "<result>Erreur : nom doit être une chaîne (max 50)</result>";
-									
 								}
 								break;
 
@@ -46,7 +45,6 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 								if (!is_string($value) || strlen($value) > 500) {
 									http_response_code(400);
 									echo "<result>Erreur : $key doit être une chaîne (max 500)</result>";
-									
 								}
 								break;
 
@@ -54,7 +52,6 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 								if (!is_numeric($value) || floatval($value) < 0) {
 									http_response_code(400);
 									echo "<result>Erreur : prix doit être un nombre décimal positif</result>";
-									
 								}
 								break;
 
@@ -63,14 +60,13 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 								if (!ctype_digit($value)) {
 									http_response_code(400);
 									echo "<result>Erreur : $key doit être un entier</result>";
-									
 								}
 								break;
 						}
 					}
 
 					// Si toutes les validations passent, on ajoute le produit
-					
+
 					$success = $produitBD->addProduits(
 						$data['nom'],
 						$data['description'],
@@ -92,21 +88,28 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 					http_response_code(400);
 					echo '<result>Erreur : Tous les champs sont requis</result>';
 				}
-				
-			} 
-			else if (isset($_POST['action']) && $_POST['action'] === 'modify') {
+			} else {
+				http_response_code(403);
+				echo '<result>Accès refusé</result>';
+			}
+		}
+	} else if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
+		if ($sessionManager->currentUser() === 'admin') {
+			parse_str(file_get_contents("php://input"), $vars);
+
+			if (isset($vars['action']) && $vars['action'] === 'modify') {
 				if (
-					isset($_POST['id']) && $_POST['nom'] && isset($_POST['description']) && isset($_POST['lien_Image'])
-					&& isset($_POST['prix']) && isset($_POST['FK_Categorie']) && isset($_POST['FK_Marque']))
-				 {
+					isset($vars['id']) && $vars['nom'] && isset($vars['description']) && isset($vars['lien_Image'])
+					&& isset($vars['prix']) && isset($vars['FK_Categorie']) && isset($vars['FK_Marque'])
+				) {
 					$data = [
-						'id'		   => $_POST['id'],
-						'nom'          => $_POST['nom'],
-						'description'  => $_POST['description'],
-						'lien_Image'   => $_POST['lien_Image'],
-						'prix'         => $_POST['prix'],
-						'FK_Categorie' => $_POST['FK_Categorie'],
-						'FK_Marque'    => $_POST['FK_Marque']
+						'id'		   => $vars['id'],
+						'nom'          => $vars['nom'],
+						'description'  => $vars['description'],
+						'lien_Image'   => $vars['lien_Image'],
+						'prix'         => $vars['prix'],
+						'FK_Categorie' => $vars['FK_Categorie'],
+						'FK_Marque'    => $vars['FK_Marque']
 					];
 
 					foreach ($data as $key => $value) {
@@ -115,7 +118,6 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 								if (!is_numeric($value)) {
 									http_response_code(400);
 									echo "<result>Erreur : id doit etre un nombre</result>";
-									
 								}
 								break;
 
@@ -123,7 +125,6 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 								if (!is_string($value) || strlen($value) > 50) {
 									http_response_code(400);
 									echo "<result>Erreur : nom doit être une chaîne (max 50)</result>";
-									
 								}
 								break;
 
@@ -132,7 +133,6 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 								if (!is_string($value) || strlen($value) > 500) {
 									http_response_code(400);
 									echo "<result>Erreur : $key doit être une chaîne (max 500)</result>";
-									
 								}
 								break;
 
@@ -140,7 +140,6 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 								if (!is_numeric($value) || floatval($value) < 0) {
 									http_response_code(400);
 									echo "<result>Erreur : prix doit être un nombre décimal positif</result>";
-									
 								}
 								break;
 
@@ -149,14 +148,13 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 								if (!ctype_digit($value)) {
 									http_response_code(400);
 									echo "<result>Erreur : $key doit être un entier</result>";
-									
 								}
 								break;
 						}
 					}
 
 					// Si toutes les validations passent, on ajoute le produit
-					
+
 					$success = $produitBD->modifyProduit(
 						$data["id"],
 						$data['nom'],
@@ -179,12 +177,18 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 					http_response_code(400);
 					echo '<result>Erreur : Tous les champs sont requis</result>';
 				}
-				//supression d'un produit
-			} 
-			else if (isset($_POST['action']) && $_POST['action'] === 'delete') {
-				if(isset($_POST['id'])){
+			}
+		} else {
+			http_response_code(403);
+			echo '<result>Accès refusé</result>';
+		}
+	}else if($_SERVER['REQUEST_METHOD'] == 'DELETE'){
+		if ($sessionManager->currentUser() === 'admin') {
+			parse_str(file_get_contents("php://input"),$vars);
+			 if (isset($vars['action']) && $vars['action'] === 'delete') {
+				if(isset($vars['id'])){
 					
-					$success = $produitBD->deleteProduct($_POST['id']);
+					$success = $produitBD->deleteProduct($vars['id']);
 					if ($success) {
 						http_response_code(200);
 						echo "<result>Produit supprimé avec succès</result>";

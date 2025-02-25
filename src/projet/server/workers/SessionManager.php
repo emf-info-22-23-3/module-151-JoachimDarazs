@@ -1,19 +1,38 @@
 <?php
+/**
+ * Classe SessionManager
+ *
+ * Cette classe gère la session utilisateur, y compris l'ouverture, la vérification,
+ * la récupération des informations et la destruction de la session.
+ */
 class SessionManager
 {
-    // Stocke les informations de l'utilisateur dans la session
+    /**
+     * Ouvre une session et stocke les informations de l'utilisateur.
+     *
+     * @param mixed $user Données de l'utilisateur à stocker dans la session.
+     * @return void
+     */
     public function openSession($user): void
     {
         $_SESSION['user'] = $user;
     }
 
-    // Vérifie si l'utilisateur est connecté
+    /**
+     * Vérifie si un utilisateur est connecté.
+     *
+     * @return bool Retourne `true` si un utilisateur est connecté, sinon `false`.
+     */
     public function isConnected(): bool
     {
         return isset($_SESSION['user']);
     }
 
-    // Détruit la session
+    /**
+     * Détruit la session en cours.
+     *
+     * @return void
+     */
     public function destroySession(): void
     {
         if (session_status() === PHP_SESSION_ACTIVE) {
@@ -22,14 +41,27 @@ class SessionManager
         }
     }
 
-    // Retourne l'utilisateur actuel
+    /**
+     * Retourne les informations de l'utilisateur actuellement connecté.
+     *
+     * @return mixed Retourne les informations de l'utilisateur ou `null` si aucun utilisateur n'est connecté.
+     */
     public function currentUser()
     {
-      //  print_r($_SESSION);
+        //simplification du code suivant :
+        // if (isset($_SESSION['user'])) {
+        //     return $_SESSION['user'];
+        //  } else {
+        //     return null;
+        //  }
         return $_SESSION['user'] ?? null;
     }
 
-    // Retourne l'ID de la session
+    /**
+     * Retourne l'ID de la session en cours.
+     *
+     * @return string L'identifiant unique de la session.
+     */
     public function getSessionId(): string
     {
         return session_id();

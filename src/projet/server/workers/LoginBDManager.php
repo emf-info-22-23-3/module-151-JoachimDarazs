@@ -1,8 +1,21 @@
 <?php
 require_once("Connexion.php");
+/**
+ * Gestionnaire d'authentification des utilisateurs.
+ * 
+ * Cette classe permet de vérifier les informations de connexion des utilisateurs
+ * en récupérant leur mot de passe depuis la base de données.
+ */
 class LoginBDManager
 {
-    //methode qui retourne le mdp en fonction d'un user
+    /**
+     * Vérifie les identifiants d'un utilisateur.
+     * 
+     * Cette méthode récupère le mot de passe hashé associé à un nom d'utilisateur donné.
+     * 
+     * @param string $username Le nom d'utilisateur à vérifier.
+     * @return array|null Retourne un tableau contenant le mot de passe si l'utilisateur existe, sinon `null`.
+     */
     function checkLogin($username)
     {
         $result = null;
