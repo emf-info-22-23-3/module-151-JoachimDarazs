@@ -1,22 +1,47 @@
 <?php
 
+/**
+ * Démarre une session si aucune session n'est déjà active.
+ */
 
 if (session_status() === PHP_SESSION_NONE) {
 	session_start();
 }
+/**
+ * Inclusion des fichiers nécessaires pour la gestion des produits et des sessions.
+ */
 include_once('../workers/ProduitBDManager.php');
 include_once('../workers/SessionManager.php');
+/**
+ * Création des objets nécessaires pour interagir avec la base de données des produits et pour gérer les sessions utilisateur.
+ */
 $produitBD = new ProduitBDManager();
 $sessionManager = new SessionManager();
+
+/**
+ * Vérifie si une méthode HTTP est présente dans la requête pour déterminer l'action à effectuer.
+ * Cela permet de gérer les différentes actions en fonction de la méthode (GET, POST, PUT, DELETE).
+ */
 if (isset($_SERVER['REQUEST_METHOD'])) {
+
+	/**
+	 * Méthode GET : Récupère et renvoie la liste des produits au format XML.
+	 */
 	if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
 		echo $produitBD->getProduitsXML();
-	} else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+	}
+	/**
+	 * Méthode POST : Permet l'ajout d'un produit si l'utilisateur est administrateur.
+	 * Vérifie que l'utilisateur a les droits nécessaires et que les informations envoyées sont valides.
+	 */
+	else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
 		if ($sessionManager->currentUser() === 'admin') {
-			//ajout d'un produit
+			/**
+			 * Vérifie que l'action est 'add' et que toutes les données nécessaires pour ajouter un produit sont présentes.
+			 */
 			if (isset($_POST['action']) && $_POST['action'] === 'add') {
 				if (
 					isset($_POST['nom']) && isset($_POST['description']) && isset($_POST['lien_Image'])
@@ -30,7 +55,10 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 						'FK_Categorie' => $_POST['FK_Categorie'],
 						'FK_Marque'    => $_POST['FK_Marque']
 					];
-
+					/**
+					 * Validation des données reçues avant de les insérer dans la base de données.
+					 * Chaque champ est vérifié pour s'assurer qu'il respecte les critères de validation (type, taille, etc.).
+					 */
 					foreach ($data as $key => $value) {
 						switch ($key) {
 							case 'nom':
@@ -65,7 +93,10 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 						}
 					}
 
-					// Si toutes les validations passent, on ajoute le produit
+					/**
+					 * Si toutes les validations passent, on ajoute le produit dans la base de données.
+					 * Une réponse est envoyée pour indiquer si l'ajout a réussi ou échoué.
+					 */
 
 					$success = $produitBD->addProduits(
 						$data['nom'],
@@ -93,6 +124,11 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 				echo '<result>Accès refusé</result>';
 			}
 		}
+
+		/**
+		 * Méthode PUT : Permet la modification d'un produit existant si l'utilisateur est administrateur.
+		 * Vérifie que l'action est 'modify' et que toutes les données nécessaires sont présentes et valides.
+		 */
 	} else if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
 		if ($sessionManager->currentUser() === 'admin') {
 			parse_str(file_get_contents("php://input"), $vars);
@@ -111,7 +147,9 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 						'FK_Categorie' => $vars['FK_Categorie'],
 						'FK_Marque'    => $vars['FK_Marque']
 					];
-
+					/**
+					 * Validation des données reçues pour la modification du produit avant de les enregistrer dans la base de données.
+					 */
 					foreach ($data as $key => $value) {
 						switch ($key) {
 							case 'id':
@@ -153,8 +191,9 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 						}
 					}
 
-					// Si toutes les validations passent, on ajoute le produit
-
+					/**
+					 * Si toutes les validations sont correctes, on modifie le produit dans la base de données.
+					 */
 					$success = $produitBD->modifyProduit(
 						$data["id"],
 						$data['nom'],
@@ -182,12 +221,16 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 			http_response_code(403);
 			echo '<result>Accès refusé</result>';
 		}
-	}else if($_SERVER['REQUEST_METHOD'] == 'DELETE'){
+		/**
+		 * Méthode DELETE : Permet la suppression d'un produit si l'utilisateur est administrateur.
+		 * Vérifie que l'action est 'delete' et que l'id du produit est fourni.
+		 */
+	} else if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
 		if ($sessionManager->currentUser() === 'admin') {
-			parse_str(file_get_contents("php://input"),$vars);
-			 if (isset($vars['action']) && $vars['action'] === 'delete') {
-				if(isset($vars['id'])){
-					
+			parse_str(file_get_contents("php://input"), $vars);
+			if (isset($vars['action']) && $vars['action'] === 'delete') {
+				if (isset($vars['id'])) {
+
 					$success = $produitBD->deleteProduct($vars['id']);
 					if ($success) {
 						http_response_code(200);
@@ -197,8 +240,7 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 						http_response_code(500);
 						echo "<result>Erreur lors de la suppression du produit</result>";
 					}
-
-				}else {
+				} else {
 					http_response_code(400);
 					echo '<result>Erreur : L id du produit n est pas fournit </result>';
 				}
